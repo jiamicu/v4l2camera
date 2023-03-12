@@ -41,11 +41,14 @@ static void com_iview_camera_native_release(JNIEnv *env) {;
     }
 }
 
-static jint com_iview_camera_native_open(JNIEnv *env, jobject thiz) {
+static jint com_iview_camera_native_open(JNIEnv *env, jobject thiz, jint videoFile) {
 
     int ret = ERROR_OPEN_FAIL;
+    char const *prefix = "/dev/video";
+    char *device = new char[strlen(prefix) + 1];
+    sprintf(device, "%s%d", prefix, videoFile);
     if (v4l2Camera != 0) {
-        ret = v4l2Camera->Open(VIDEO_FILE, IMAGEWIDTH, IMAGEHEIGHT, PIX_FORMATE);
+        ret = v4l2Camera->Open(device, IMAGEWIDTH, IMAGEHEIGHT, PIX_FORMATE);
     }
 
     return ret;
@@ -188,7 +191,7 @@ static int com_iview_camera_native_stopPreview(JNIEnv *env, jobject thiz) {
 static JNINativeMethod gMethods[] = {
 {"native_init",         "()V",                              (void *)com_iview_camera_native_init},
 {"native_release",         "()V",                              (void *)com_iview_camera_native_release},
-{"native_open",         "()I",                              (void *)com_iview_camera_native_open},
+{"native_open",         "(I)I",                              (void *)com_iview_camera_native_open},
 {"native_close",         "()V",                              (void *)com_iview_camera_native_close},
 {"native_getParameters",         "()Ljava/util/ArrayList;",                              (void *)com_iview_camera_native_getParameters},
 {"native_setPreviewSize",         "(III)I",                              (void *)com_iview_camera_native_setPreviewSize},

@@ -58,8 +58,8 @@ public class V4L2Camera{
         stateCallback = null;
     }
 
-    public void open() {
-        int ret = native_open();
+    public void open(int videoFile) {
+        int ret = native_open(videoFile);
 
         if (ret == SUCCESS) {
             stateCallback.onOpened();
@@ -225,7 +225,7 @@ public class V4L2Camera{
 
     private native final void native_init();
     private native final void native_release();
-    private native final int native_open();
+    private native final int native_open(int videoFile);
     private native final void native_close();
     private native final ArrayList<Parameter> native_getParameters();
     private native final int native_setPreviewSize(int width, int height, int pixFormat);
