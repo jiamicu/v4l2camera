@@ -1,9 +1,34 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.0"
-
+    ndkVersion "21.1.6352462"
 
     defaultConfig {
         minSdkVersion 21
@@ -35,6 +60,27 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        pickFirst '**/*.so'
+    }
+
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'pri.tool.v4l2camera'
+                artifactId = 'v4l2camera'
+                version = '1.0.0'
+            }
+        }
+    }
 }
 
 dependencies {
