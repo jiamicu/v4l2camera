@@ -19,7 +19,7 @@ set(jpeglibs "${CMAKE_SOURCE_DIR}/../jniLibs")
 # 导入第三方库：libjpeg.so
 add_library(libjpeg SHARED IMPORTED)
 set_target_properties(libjpeg PROPERTIES
-        IMPORTED_LOCATION "${jpeglibs}/${ANDROID_ABI}/libjpeg.so")
+        IMPORTED_LOCATION "${jpeglibs}/${ANDROID_ABI}/libjpeg-turbo1500.so")
 
 
 
