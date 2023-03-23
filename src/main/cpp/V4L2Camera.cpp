@@ -144,6 +144,7 @@ int V4L2Camera::Open(const char *filename,
 
 void V4L2Camera::Close()
 {
+    Uninit();
     close(fd);
 }
 
@@ -180,7 +181,7 @@ int V4L2Camera::Init()
     }
 
     /* Only map one */
-    mem = (unsigned char *)mmap(0, buf.length, PROT_READ | PROT_WRITE, 
+    mem = (unsigned char *)mmap(0, buf.length, PROT_READ | PROT_WRITE,
 				MAP_SHARED, fd, buf.m.offset);
     if (mem == MAP_FAILED) {
         ALOGE("Unable map buffer: %s", strerror(errno));
@@ -567,6 +568,3 @@ int V4L2Camera::bmp_write(unsigned char *image, int imageWidth, int imageHeight,
     fclose(fp);
     return 0;
 }
-
-
-
